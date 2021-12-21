@@ -9,5 +9,5 @@ class MainPage(BasePage):
         login_link.click()
 
     def should_be_login_link(self):
-        """Проверка кнопки "Войти или зарегистрироваться"""
-        self.browser.find_element(By.CSS_SELECTOR, "#login_link_invalid")
+        """Поиск наличи кнопки "Войти или зарегистрироваться"""
+        assert self.is_element_present(By.CSS_SELECTOR, "#login_link"), "Login link is not presented"
