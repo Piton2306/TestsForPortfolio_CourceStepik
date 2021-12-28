@@ -9,7 +9,7 @@ def test_guest_can_add_product_to_basket(browser):
     page = BasketPage(browser, link)
     page.open()
     page.add_name_price_message()
-    sleep(5)
+    # sleep(10)
 
 
 @pytest.mark.parametrize('link', [
@@ -31,3 +31,4 @@ def test_guest_can_add_product_to_basket_new_product(browser, link):
     page = BasketPage(browser, link)
     page.open()
     page.add_name_price_message()
+    # sleep(10)

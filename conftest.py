@@ -1,7 +1,6 @@
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import random
 
 
 # pytest -v -s --browser_name=chrome test.py
