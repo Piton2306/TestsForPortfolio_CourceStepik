@@ -1,6 +1,6 @@
 from pages.product_page import BasketPage
-from time import sleep
 import pytest
+from time import sleep
 
 
 def test_guest_can_add_product_to_basket(browser):
@@ -32,3 +32,30 @@ def test_guest_can_add_product_to_basket_new_product(browser, link):
     page.open()
     page.add_name_price_message()
     # sleep(10)
+
+
+@pytest.mark.xfail
+def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
+    """Добавляет товар и проверяет что сообщение об успешном добавлении не появится"""
+    link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer0"
+    page = BasketPage(browser, link)
+    page.open()
+    page.go_to_add_basket()
+    page.should_not_be_message_is_not()
+
+
+def test_guest_cant_see_success_message(browser):
+    """проверяет что сообщение об успешном добавлении не появится"""
+    link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer0"
+    page = BasketPage(browser, link)
+    page.open()
+    page.should_not_be_message_is_not()
+
+@pytest.mark.xfail
+def test_message_disappeared_after_adding_product_to_basket(browser):
+    """Добавляет товар и проверяет что сообщение об успешном добавлении исчезнет за заданное время"""
+    link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer0"
+    page = BasketPage(browser, link)
+    page.open()
+    page.go_to_add_basket()
+    page.should_not_be_message_is_disappeared()
