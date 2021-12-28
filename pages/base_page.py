@@ -1,17 +1,17 @@
 from selenium.common.exceptions import NoSuchElementException, \
     NoAlertPresentException, TimeoutException
-
+from .locators import BasePageLocators
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import math
 import time
 
 
-class BasePage:
+class BasePage(BasePageLocators):
     def __init__(self, browser, url, timeout=10):
         self.browser = browser
         self.url = url
-        # self.browser.implicitly_wait(timeout)
+        self.browser.implicitly_wait(timeout)
 
     def open(self):
         """Открытие браузера"""
@@ -58,3 +58,12 @@ class BasePage:
             alert.accept()
         except NoAlertPresentException:
             print("No second alert presented")
+
+    def go_to_login_page(self):
+        """Нажатие на кнопку 'Войти или зарегистрироваться'"""
+        login_link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
+        login_link.click()
+
+    def should_be_login_link(self):
+        """Проверка наличия кнопки 'Войти или зарегистрироваться'"""
+        assert self.is_element_present(*BasePageLocators.LOGIN_LINK), "Login link не существует"
