@@ -8,7 +8,7 @@ import time
 
 
 class BasePage(BasePageLocators):
-    def __init__(self, browser, url, timeout=10):
+    def __init__(self, browser, url, timeout=3):
         self.browser = browser
         self.url = url
         self.browser.implicitly_wait(timeout)
@@ -17,16 +17,17 @@ class BasePage(BasePageLocators):
         """Открытие браузера"""
         self.browser.get(self.url)
 
-    def is_element_present(self, how, what):
-        """Вывод исключения наличия элемента метод Try"""
+    def is_element_present(self, how, what, timeout=10):
+        """Проверяет, что элемент есть на странице"""
         try:
-            self.browser.find_element(how, what)
-        except NoSuchElementException:
+            WebDriverWait(self.browser, timeout).until(
+                EC.visibility_of_element_located((how, what)))
+        except TimeoutException:
             return False
         return True
 
     def is_not_element_present(self, how, what, timeout=4):
-        """Проверяет, что элемент не появляется на странице в течение заданного времени"""
+        """Проверяет, что элемента нет на странице"""
         try:
             WebDriverWait(self.browser, timeout).until(
                 EC.presence_of_element_located((how, what)))
@@ -51,7 +52,7 @@ class BasePage(BasePageLocators):
         alert.send_keys(answer)
         alert.accept()
         try:
-            # time.sleep(2)
+            time.sleep(0.5)
             alert = self.browser.switch_to.alert
             alert_text = alert.text
             print(f"Your code: {alert_text}")
@@ -67,3 +68,8 @@ class BasePage(BasePageLocators):
     def should_be_login_link(self):
         """Проверка наличия кнопки 'Войти или зарегистрироваться'"""
         assert self.is_element_present(*BasePageLocators.LOGIN_LINK), "Login link не существует"
+
+    def go_to_view_basket(self):
+        """Переход в корзину"""
+        view_basket = self.browser.find_element(*BasePageLocators.VIEW_BASKET)
+        view_basket.click()

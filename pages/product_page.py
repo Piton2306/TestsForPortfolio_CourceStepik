@@ -1,9 +1,8 @@
 from pages.login_page import BasePage
 from pages.locators import ProductPageLocators
-import time
 
 
-class BasketPage(BasePage):
+class ProductPage(BasePage):
     def add_name_price_message(self):
         self.go_to_add_basket()
         self.price_prod_must_be_equal_price_basket()
@@ -17,6 +16,7 @@ class BasketPage(BasePage):
 
     def price_prod_must_be_equal_price_basket(self):
         """Проверка цены продукта и цены в корзине"""
+        self.is_element_present(*ProductPageLocators.PRICE_PRODUCT_BASKET)
         price = self.browser.find_element(*ProductPageLocators.PRICE_PRODUCT).text
         price_basket = self.browser.find_element(*ProductPageLocators.PRICE_PRODUCT_BASKET).text
         assert price == price_basket, \
@@ -24,6 +24,7 @@ class BasketPage(BasePage):
 
     def name_prod_must_be_equal_name_basket(self):
         """Проверка имени товара после добавления в корзину"""
+        self.is_element_present(*ProductPageLocators.NAME_PRODUCT_BASKET)
         name = self.browser.find_element(*ProductPageLocators.NAME_PRODUCT).text
         name_basket = self.browser.find_element(*ProductPageLocators.NAME_PRODUCT_BASKET).text
         assert name == name_basket, \
