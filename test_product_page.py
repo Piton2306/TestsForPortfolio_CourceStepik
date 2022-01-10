@@ -4,6 +4,7 @@ from pages.basket_page import BasketPage
 from pages.login_page import LoginPage
 
 
+@pytest.mark.need_review
 def test_guest_can_add_product_to_basket(browser):
     """Добаление продукта с выводом Alert"""
     link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-shellcoders-handbook_209/?promo=newYear"
@@ -27,10 +28,11 @@ def test_guest_can_add_product_to_basket(browser):
     "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer9",
 ])
 def test_guest_can_add_product_to_basket_new_product(browser, link):
-    """Добаления товара на разных страницах проврка цены, имени в корзине и сообщение об успешном довавлении"""
+    """Добаления товара,проврка цены, имени в корзине и сообщение об успешном добавлении"""
     page = ProductPage(browser, link)
     page.open()
     page.add_name_price_message()
+
 
 @pytest.mark.xfail
 def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
@@ -68,6 +70,7 @@ def test_guest_should_see_login_link_on_product_page(browser):
     page.should_be_login_link()
 
 
+@pytest.mark.need_review
 def test_guest_can_go_to_login_page_from_product_page(browser):
     """Проверка есть ли элемент 'Войти или зарегистрироваться' и войти"""
     link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
@@ -77,6 +80,7 @@ def test_guest_can_go_to_login_page_from_product_page(browser):
     page.go_to_login_page()
 
 
+@pytest.mark.need_review
 def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
     link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer0"
     page = ProductPage(browser, link)
@@ -103,8 +107,9 @@ class TestUserAddToBasketFromProductPage:
         page.open()
         page.should_not_be_message_is_not()
 
+    @pytest.mark.need_review
     def test_user_can_add_product_to_basket(self, browser):
-        """Добаление продукта с выводом Alert"""
+        """Добавление зарегистрированным пользователем продукта"""
         link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-shellcoders-handbook_209/?promo=newYear"
         page = ProductPage(browser, link)
         page.open()

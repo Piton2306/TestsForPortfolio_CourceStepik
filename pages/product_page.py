@@ -20,7 +20,7 @@ class ProductPage(BasePage):
         price = self.browser.find_element(*ProductPageLocators.PRICE_PRODUCT).text
         price_basket = self.browser.find_element(*ProductPageLocators.PRICE_PRODUCT_BASKET).text
         assert price == price_basket, \
-            "Цена в корзине не соответсвует цене товара"
+            "Цена в корзине не соответствует цене товара"
 
     def name_prod_must_be_equal_name_basket(self):
         """Проверка имени товара после добавления в корзину"""
@@ -28,14 +28,14 @@ class ProductPage(BasePage):
         name = self.browser.find_element(*ProductPageLocators.NAME_PRODUCT).text
         name_basket = self.browser.find_element(*ProductPageLocators.NAME_PRODUCT_BASKET).text
         assert name == name_basket, \
-            "Название товара несоответсвует названию в корзине"
+            "Название товара несоответствует названию в корзине"
 
     def should_not_be_message_is_not(self):
-        """Проверяет что сообщения о успешном добавлении нет"""
+        """Проверяет что сообщения об успешном добавлении не появится"""
         assert self.is_not_element_present(*ProductPageLocators.SUCCESS_MESSAGE), \
             "Success message is presented, but should not be"
 
     def should_not_be_message_is_disappeared(self):
-        """Проверяет что сообщения о успешном добавлении не исчезнет"""
+        """Проверяет что сообщения об успешном добавлении не исчезнет"""
         assert self.is_disappeared(*ProductPageLocators.SUCCESS_MESSAGE), \
             "Success message is presented, but should not be"
