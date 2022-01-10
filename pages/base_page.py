@@ -27,7 +27,7 @@ class BasePage(BasePageLocators):
         return True
 
     def is_not_element_present(self, how, what, timeout=4):
-        """Проверяет, что элемента нет на странице"""
+        """Ожидает что элемент не появится на странице"""
         try:
             WebDriverWait(self.browser, timeout).until(
                 EC.presence_of_element_located((how, what)))
@@ -36,13 +36,18 @@ class BasePage(BasePageLocators):
         return False
 
     def is_disappeared(self, how, what, timeout=4):
-        """Проверяет, что элемент исчезнет за заданное время"""
+        """Ожидает, что элемент исчезнет за заданное время"""
         try:
             WebDriverWait(self.browser, timeout, 1, TimeoutException). \
                 until_not(EC.presence_of_element_located((how, what)))
         except TimeoutException:
             return False
         return True
+
+    def should_be_authorized_user(self):
+        """Проверка, что пользователь залогинен"""
+        assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
+                                                                     " probably unauthorised user"
 
     def solve_quiz_and_get_code(self):
         """Вносит данные примера в алерт и проверяет что появился новый алерт"""
@@ -52,7 +57,7 @@ class BasePage(BasePageLocators):
         alert.send_keys(answer)
         alert.accept()
         try:
-            time.sleep(0.5)
+            time.sleep(1)
             alert = self.browser.switch_to.alert
             alert_text = alert.text
             print(f"Your code: {alert_text}")
